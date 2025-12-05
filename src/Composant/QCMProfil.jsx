@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Card, Button, ProgressBar, Form } from "react-bootstrap";
-import QCMResult from "./QCMResult"; // importer le composant résultat
+import { Card, Button, ProgressBar, Form, Navbar, Container } from "react-bootstrap";
+import QCMResult from "./QCMResult";
 import './QCMProfil.css';
 
 const questions = [
@@ -51,7 +51,7 @@ export default function QCMProfil() {
 
   const handleNext = () => {
     if (index === questions.length - 1) {
-      setFinished(true); // QCM terminé → afficher résultat
+      setFinished(true);
     } else {
       setSlide(false);
       setTimeout(() => {
@@ -69,59 +69,59 @@ export default function QCMProfil() {
     }, 200);
   };
 
-  if (finished) {
-    return (
-      <QCMResult 
-        answers={answers} 
-        onRestart={() => {
-          setIndex(0);
-          setAnswers({});
-          setFinished(false);
-        }}
-      />
-    );
-  }
-
   return (
-    <div className="qcm-background-prof">
-      <Card className={`qcm-card-prof ${slide ? 'slide-in' : 'slide-out'}`}>
-        <Card.Header className="qcm-header-prof">
-          Profilage Sportif
-        </Card.Header>
+    <>
+      {/* NAVBAR */}
+      <Navbar style={{ backgroundColor: "#0079C1" }}>
+        <Container>
+          <Navbar.Brand>
+            
+          </Navbar.Brand>
+        </Container>
+      </Navbar>
 
-        <Card.Body className="qcm-body-prof">
-          <ProgressBar now={progress} label={`${index + 1}/${questions.length}`} className="qcm-progress-prof" />
+      <div className="qcm-background-prof">
+        <Card className={`qcm-card-prof ${slide ? 'slide-in' : 'slide-out'}`}>
+          <Card.Header className="qcm-header-prof">
+            Profilage Sportif
+          </Card.Header>
 
-          <div className="qcm-question-container">
-            <h5 className="qcm-question-prof">{questions[index].text}</h5>
+          <Card.Body className="qcm-body-prof">
+            <ProgressBar now={progress} label={`${index + 1}/${questions.length}`} className="qcm-progress-prof" />
 
-            <Form>
-              {questions[index].options.map((option) => (
-                <Form.Check
-                  key={option}
-                  type={questions[index].multiple ? "checkbox" : "radio"}
-                  name={`q-${index}`}
-                  label={option}
-                  checked={
-                    questions[index].multiple
-                      ? (answers[index] || []).includes(option)
-                      : answers[index] === option
-                  }
-                  onChange={() => handleChange(option)}
-                  className="qcm-option-prof"
-                />
-              ))}
-            </Form>
-          </div>
+            <div className="qcm-question-container">
+              <h5 className="qcm-question-prof">{questions[index].text}</h5>
 
-          <div className="qcm-buttons-prof">
-            <Button className="qcm-btn-back-prof" disabled={index === 0} onClick={handleBack}>← Retour</Button>
-            <Button className="qcm-btn-next-prof" disabled={!canNext()} onClick={handleNext}>
-              {index === questions.length - 1 ? "Terminer" : "Suivant →"}
-            </Button>
-          </div>
-        </Card.Body>
-      </Card>
-    </div>
+              <Form>
+                {questions[index].options.map((option) => (
+                  <Form.Check
+                    key={option}
+                    type={questions[index].multiple ? "checkbox" : "radio"}
+                    name={`q-${index}`}
+                    label={option}
+                    checked={
+                      questions[index].multiple
+                        ? (answers[index] || []).includes(option)
+                        : answers[index] === option
+                    }
+                    onChange={() => handleChange(option)}
+                    className="qcm-option-prof"
+                  />
+                ))}
+              </Form>
+            </div>
+
+            <div className="qcm-buttons-prof">
+              <Button className="qcm-btn-back-prof" disabled={index === 0} onClick={handleBack}>
+                ← Retour
+              </Button>
+              <Button className="qcm-btn-next-prof" disabled={!canNext()} onClick={handleNext}>
+                {index === questions.length - 1 ? "Terminer" : "Suivant →"}
+              </Button>
+            </div>
+          </Card.Body>
+        </Card>
+      </div>
+    </>
   );
 }

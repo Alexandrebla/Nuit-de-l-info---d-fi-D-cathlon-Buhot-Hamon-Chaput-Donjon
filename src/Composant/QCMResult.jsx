@@ -18,7 +18,7 @@ function determineProfile(answers) {
     mainGoal,
     secondaryGoal,
     equipmentAvailable: equipment === "Oui",
-  };
+  }; 
 }
 
 export default function QCMResult({ answers, onRestart }) {
@@ -36,7 +36,7 @@ export default function QCMResult({ answers, onRestart }) {
           {/* Image en haut */}
           <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
             <img 
-              src=""
+              src="./img/profil.jpg"
               alt="Profil sportif"
               style={{ width: '150px', height: '150px', borderRadius: '50%', objectFit: 'cover' }}
             />
